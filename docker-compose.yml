@@ -1,9 +1,24 @@
 version: "3"
 services:
+  auth-proxy:
+    image: unfairbanks/auth-proxy:0.1
+    environment: 
+      SERVICE_JUPYTER_PORT: 8888
+      GOOGLE_CLIENT_ID:
+      GOOGLE_CLIENT_SECRET:
+      HOST:
+      SESSION_SECRET:
+      COOKIE_DOMAIN: "mikerisse.com"
+      PORT: 443
+      NODE_ENV: production
+    volumes:
+      - '.cert:/app/cert'
+      - './accessControl.json:/app/accessControl.json'
+    ports:
+      - "443:443"
+    
   jupyter:
     image: jupyter/tensorflow-notebook
-    ports: 
-      - "127.0.0.1:8888:8888"
     volumes:
       - ./notebooks:/home/jovyan/work/notebooks
       - ./audio:/home/jovyan/work/audio
